@@ -1,9 +1,10 @@
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Optional
+from datetime import datetime
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Field
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from fastapi_users_db_sqlmodel import SQLModelBaseUserDB, SQLModelUserDatabaseAsync
@@ -26,7 +27,9 @@ DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT
 
 # define model using sqlmodel from fastapi-user-db-sqlmodel module
 class User(SQLModelBaseUserDB, table=True):
-    pass
+    """User model for authentication system."""
+    username: str = Field(unique=True, index=True)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
 # set up connection and session

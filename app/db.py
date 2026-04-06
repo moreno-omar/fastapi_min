@@ -28,7 +28,6 @@ DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT
 # define model using sqlmodel from fastapi-user-db-sqlmodel module
 class User(SQLModelBaseUserDB, table=True):
     """User model for authentication system."""
-    username: str = Field(unique=True, index=True)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 

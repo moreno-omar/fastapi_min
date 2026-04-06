@@ -7,8 +7,10 @@ from alembic import context
 
 # my models
 # along with sqlmodel
-from slqmodel import SQLModel
-from app.models import User
+from sqlmodel import SQLModel
+
+# model in app/db.py
+from app.db import User
 
 # setup for credentials.
 # so not to hardcode into alembic.ini

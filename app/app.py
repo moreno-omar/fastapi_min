@@ -4,6 +4,7 @@ from fastapi import Depends, FastAPI
 from app.db import User, create_db_and_tables
 from app.schemas import UserCreate, UserRead, UserUpdate
 from app.users import auth_backend, current_active_user, fastapi_users
+from app.payments import router as payments_router, webhook_router
 
 app = FastAPI()
 
@@ -30,3 +31,5 @@ app.include_router(
     prefix="/users",
     tags=["users"],
 )
+app.include_router(payments_router)
+app.include_router(webhook_router)

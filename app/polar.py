@@ -2,9 +2,9 @@
 import os
 from dotenv import load_dotenv
 import httpx
-import hmac
 import json
 from typing import Any
+from polar_sdk.webhooks import validate_event, WebhookVerificationError
 
 load_dotenv()
 
@@ -29,26 +29,26 @@ polar_client = httpx.AsyncClient(
 
 def verify_webhook_signature(payload: bytes, signature: str) -> bool:
     """
-    Verify Polar webhook signature.
+    Verify Polar webhook signature using polar_sdk.
     
     Args:
         payload: Raw request body
         signature: X-Webhook-Signature header value
         
     Returns:
-        True if signature is valid
+        True if signature is valid, False otherwise
+        
+    Raises:
+        WebhookVerificationError: If signature verification fails
     """
-    if not POLAR_WEBHOOK_SECRET:
+    if not POLAR_WEBHOOK_SECRET or not signature:
         return False
     
-    # Polar uses HMAC-SHA256 with the webhook secret
-    expected_signature = hmac.new(
-        POLAR_WEBHOOK_SECRET.encode(),
-        payload,
-        digestmod="sha256"
-    ).hexdigest()
-    
-    return hmac.compare_digest(signature, expected_signature)
+    try:
+        validate_event(payload.decode(), signature, POLAR_WEBHOOK_SECRET)
+        return True
+    except WebhookVerificationError:
+        return False
 
 
 async def get_checkout_url(packet_id: str) -> str:

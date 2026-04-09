@@ -7,6 +7,7 @@ from app.polar import (
     get_checkout_url,
     verify_webhook_signature,
     send_event_to_polar,
+    WebhookVerificationError,
 )
 
 router = APIRouter(prefix="/payments", tags=["payments"])

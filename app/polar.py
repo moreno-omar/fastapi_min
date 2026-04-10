@@ -27,27 +27,26 @@ polar_client = httpx.AsyncClient(
 )
 
 
-def verify_webhook_signature(payload: bytes, signature: str) -> bool:
+def verify_webhook_signature(payload: bytes, headers: dict) -> bool:
     """
     Verify Polar webhook signature using polar_sdk.
     
     Args:
         payload: Raw request body
-        signature: X-Webhook-Signature header value
+        headers: Request headers dictionary
         
     Returns:
         True if signature is valid, False otherwise
-        
-    Raises:
-        WebhookVerificationError: If signature verification fails
     """
-    if not POLAR_WEBHOOK_SECRET or not signature:
+    if not POLAR_WEBHOOK_SECRET:
         return False
     
     try:
-        validate_event(payload.decode(), signature, POLAR_WEBHOOK_SECRET)
+        validate_event(payload.decode(), headers, POLAR_WEBHOOK_SECRET)
         return True
     except WebhookVerificationError:
+        return False
+    except Exception:
         return False
 
 

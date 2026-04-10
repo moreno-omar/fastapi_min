@@ -1,6 +1,6 @@
 """Payment routes for Polar.sh integration."""
 import json
-from fastapi import APIRouter, Depends, HTTPException, Request, Header
+from fastapi import APIRouter, Depends, HTTPException, Request
 from app.users import current_active_user
 from app.db import User
 from app.polar import (
@@ -48,30 +48,27 @@ async def checkout(
 
 
 @webhook_router.post("/webhooks/polar")
-async def polar_webhook(
-    request: Request,
-    x_webhook_signature: str = Header(None),
-):
+async def polar_webhook(request: Request):
     """
     Webhook endpoint for Polar.sh payment events.
     
     Args:
         request: The webhook request
-        x_webhook_signature: Webhook signature header
         
     Returns:
         Acknowledgment of webhook receipt
     """
-    # Get raw body for signature verification
-    raw_body = await request.body()
+    # Get request data
+    body = await request.body()
+    headers = request.headers
     
     # Verify webhook signature
-    if not verify_webhook_signature(raw_body, x_webhook_signature):
+    if not verify_webhook_signature(body, headers):
         raise HTTPException(status_code=401, detail="Invalid webhook signature")
     
     # Parse body
     try:
-        payload = json.loads(raw_body)
+        payload = json.loads(body)
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="Invalid JSON")
     

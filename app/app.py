@@ -13,10 +13,12 @@ from app.payments import router as payments_router, webhook_router
 BASE_DIR = Path(__file__).parent
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
+
 app = FastAPI()
 
 # Mount static files
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]

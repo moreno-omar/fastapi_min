@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}PDF to Word Conversion Service{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <h1>Convert PDF to Word</h1>
+        <p>Professional-grade PDF to Word conversion with formatting preservation.</p>
+    </div>
+</section>
+
+<!-- Feature Highlights -->
+<section class="highlights">
+    <div class="highlights-container">
+        <div class="highlight-item">
+            <h3>📄 Format Preservation</h3>
+            <p>All formatting, fonts, and layout preserved exactly as original.</p>
+        </div>
+        <div class="highlight-item">
+            <h3>⚡ Lightning Fast</h3>
+            <p>Convert files in seconds with our optimized processing engine.</p>
+        </div>
+        <div class="highlight-item">
+            <h3>🔒 Secure</h3>
+            <p>Your files are processed securely and deleted immediately after conversion.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Converter Section -->
+<section class="converter-section">
+    <div class="converter-container">
+        <h2>Convert Your PDF Now</h2>
+        
+        <!-- Upload Form -->
+        <div class="upload-form">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="pdfFile">Select PDF File:</label>
+                    <input type="file" id="pdfFile" name="file" accept=".pdf" required>
+                    <small>Maximum file size: 50MB</small>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large">Convert to Word</button>
+            </form>
+            
+            <div id="uploadStatus" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="how-it-works-container">
+        <h2>How It Works</h2>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Upload</h3>
+                <p>Select and upload your PDF file. We support files up to 50MB in size.</p>
+            </div>
+            
+            <div class="step-arrow">→</div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Process</h3>
+                <p>Our advanced engine converts your PDF to Word format in seconds.</p>
+            </div>
+            
+            <div class="step-arrow">→</div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Download</h3>
+                <p>Download your Word document instantly and start editing.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="benefits">
+    <div class="benefits-container">
+        <h2>Why Choose PDFConvert?</h2>
+        
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <h4>Accurate Conversion</h4>
+                <p>Maintains original formatting, fonts, colors, and layout precision.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>Fast Processing</h4>
+                <p>Convert your documents in seconds, not minutes or hours.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>Editable Output</h4>
+                <p>Receive fully editable Word documents you can modify immediately.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>Batch Conversion</h4>
+                <p>Convert multiple PDF files at once to save time.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>Privacy First</h4>
+                <p>Your files are never stored permanently on our servers.</p>
+            </div>
+            <div class="benefit-item">
+                <h4>No Installation</h4>
+                <p>Use our service directly from your browser, no software needed.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq">
+    <div class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-items">
+            <div class="faq-item">
+                <h4>What is the maximum file size?</h4>
+                <p>You can upload PDF files up to 50MB in size.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>How long does conversion take?</h4>
+                <p>Most conversions complete within seconds. Large files may take up to a minute.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Is my file secure?</h4>
+                <p>Yes. Files are processed securely and deleted immediately after conversion.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Can I convert multiple files at once?</h4>
+                <p>Yes. You can batch convert multiple PDF files simultaneously.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>What format is the output?</h4>
+                <p>Output is in Microsoft Word format (.docx) for maximum compatibility.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Do I need to create an account?</h4>
+                <p>No account needed. Use our service immediately without registration.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2>Have Questions?</h2>
+        <p>Contact our support team for assistance.</p>
+        <a href="/contact" class="btn btn-primary btn-large">Get in Touch</a>
+    </div>
+</section>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fileInput = document.getElementById('pdfFile');
+    const statusDiv = document.getElementById('uploadStatus');
+    
+    if (!fileInput.files.length) {
+        statusDiv.innerHTML = '<p style="color: #ef4444;">Please select a file.</p>';
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    if (file.size > 50 * 1024 * 1024) {
+        statusDiv.innerHTML = '<p style="color: #ef4444;">File size exceeds 50MB limit.</p>';
+        return;
+    }
+    
+    statusDiv.innerHTML = '<p style="color: #3b82f6;">Converting... Please wait.</p>';
+    
+    // File upload handler - ready for backend integration
+    // TODO: Replace with actual upload endpoint
+    console.log('File ready for upload:', file);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{# Feature Card Component - Reusable feature display #}
+<div class="feature-card {% if align_right %}feature-card-right{% else %}feature-card-left{% endif %}">
+    <div class="feature-content">
+        <h3>{{ title }}</h3>
+        <p>{{ description }}</p>
+    </div>
+    <div class="feature-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2"/>
+            <text x="50" y="60" text-anchor="middle" font-size="40" fill="currentColor">{{ icon }}</text>
+        </svg>
+    </div>
+</div>

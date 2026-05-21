@@ -1,5 +1,6 @@
 # imports
 from fastapi import Depends, FastAPI, Request, File, UploadFile
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
@@ -123,23 +124,19 @@ async def convert_pdf(file: UploadFile = File(None)):
     try:
         # Validation
         if file is None:
-            return "<p style=\"color: #ef4444;\">Please select a file.</p>"
+            return HTMLResponse("<p style=\"color: #ef4444;\">Please select a file.</p>")
         
         # Check file size (50MB limit)
         file_content = await file.read()
         if len(file_content) > 50 * 1024 * 1024:
-            return "<p style=\"color: #ef4444;\">File size exceeds 50MB limit.</p>"
+            return HTMLResponse("<p style=\"color: #ef4444;\">File size exceeds 50MB limit.</p>")
         
         # TODO: Implement actual PDF to Word conversion logic
         print(f"Converting file: {file.filename} ({len(file_content)} bytes)")
         
         # Return success message
-        return (
-            '<p style="color: #10b981; font-weight: bold;">✓ Conversion successful!</p>'
-            f'<p>File \'{file.filename}\' has been converted to Word format.</p>'
-            '<p style="margin-top: 10px;"><a href="#" style="color: #3b82f6; text-decoration: underline;">Download your file</a></p>'
-        )
+        return HTMLResponse(f"<p style=\"color: #10b981; font-weight: bold;\">✓ Conversion successful!</p><p>File '{file.filename}' has been converted to Word format.</p><p style=\"margin-top: 10px;\"><a href=\"#\" style=\"color: #3b82f6; text-decoration: underline;\">Download your file</a></p>")
     
     except Exception as e:
         print(f"Error processing PDF conversion: {e}")
-        return f"<p style=\"color: #ef4444;\">An error occurred: {str(e)}</p>"
+        return HTMLResponse(f"<p style=\"color: #ef4444;\">An error occurred: {str(e)}</p>")

@@ -38,7 +38,8 @@
         <div class="upload-form">
             <form hx-post="/api/convert" 
                   hx-target="#uploadStatus" 
-                  hx-swap="innerHTML">
+                  hx-swap="innerHTML"
+                  enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="pdfFile">Select PDF File:</label>
                     <input type="file" id="pdfFile" name="file" accept=".pdf" required>

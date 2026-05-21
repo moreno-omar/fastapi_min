@@ -135,7 +135,12 @@ async def convert_pdf(file: UploadFile = File(None)):
         print(f"Converting file: {file.filename} ({len(file_content)} bytes)")
         
         # Return success message
-        return HTMLResponse(f"<p style=\"color: #10b981; font-weight: bold;\">✓ Conversion successful!</p><p>File '{file.filename}' has been converted to Word format.</p><p style=\"margin-top: 10px;\"><a href=\"#\" style=\"color: #3b82f6; text-decoration: underline;\">Download your file</a></p>")
+        html_response = f"""
+        <p style="color: #10b981; font-weight: bold;">✓ Conversion successful!</p>
+        <p>File '{file.filename}' has been converted to Word format.</p>
+        <p style="margin-top: 10px;"><a href="#" style="color: #3b82f6; text-decoration: underline;">Download your file</a></p>
+        """
+        return HTMLResponse(html_response)
     
     except Exception as e:
         print(f"Error processing PDF conversion: {e}")

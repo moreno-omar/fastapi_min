@@ -36,7 +36,9 @@
         
         <!-- Upload Form -->
         <div class="upload-form">
-            <form id="uploadForm" enctype="multipart/form-data">
+            <form hx-post="/api/convert" 
+                  hx-target="#uploadStatus" 
+                  hx-swap="innerHTML">
                 <div class="form-group">
                     <label for="pdfFile">Select PDF File:</label>
                     <input type="file" id="pdfFile" name="file" accept=".pdf" required>
@@ -163,29 +165,4 @@
         <a href="/contact" class="btn btn-primary btn-large">Get in Touch</a>
     </div>
 </section>
-
-<script>
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const fileInput = document.getElementById('pdfFile');
-    const statusDiv = document.getElementById('uploadStatus');
-    
-    if (!fileInput.files.length) {
-        statusDiv.innerHTML = '<p style="color: #ef4444;">Please select a file.</p>';
-        return;
-    }
-    
-    const file = fileInput.files[0];
-    if (file.size > 50 * 1024 * 1024) {
-        statusDiv.innerHTML = '<p style="color: #ef4444;">File size exceeds 50MB limit.</p>';
-        return;
-    }
-    
-    statusDiv.innerHTML = '<p style="color: #3b82f6;">Converting... Please wait.</p>';
-    
-    // File upload handler - ready for backend integration
-    // TODO: Replace with actual upload endpoint
-    console.log('File ready for upload:', file);
-});
-</script>
 {% endblock %}

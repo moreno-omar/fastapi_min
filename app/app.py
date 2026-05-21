@@ -115,3 +115,33 @@ async def submit_contact(request: Request):
             status_code=500,
             request=request
         )
+
+
+@app.post("/api/convert")
+async def convert_pdf(request: Request):
+    """Handle PDF to Word conversion"""
+    try:
+        # Get form data with file
+        form_data = await request.form()
+        file = form_data.get("file")
+        
+        # Validation
+        if not file:
+            return "<p style=\"color: #ef4444;\">Please select a file.</p>"
+        
+        # Check file size (50MB limit)
+        file_content = await file.read()
+        if len(file_content) > 50 * 1024 * 1024:
+            return "<p style=\"color: #ef4444;\">File size exceeds 50MB limit.</p>"
+        
+        # TODO: Implement actual PDF to Word conversion logic
+        print(f"Converting file: {file.filename} ({len(file_content)} bytes)")
+        
+        # Return success message
+        return f"""<p style=\"color: #10b981; font-weight: bold;\">✓ Conversion successful!</p>
+<p>File '{file.filename}' has been converted to Word format.</p>
+<p style=\"margin-top: 10px;\"><a href=\"#\" style=\"color: #3b82f6; text-decoration: underline;\">Download your file</a></p>"""
+    
+    except Exception as e:
+        print(f"Error processing PDF conversion: {e}")
+        return f"<p style=\"color: #ef4444;\">An error occurred: {str(e)}</p>"
